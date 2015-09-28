@@ -16,10 +16,14 @@ class PlayerTest < MiniTest::Test
     # the mock request returned by OneSignal.build_post_request
     request_mock = MiniTest::Mock.new
 
+    # the mock response returned by http.request
+    response_mock = MiniTest::Mock.new
+    response_mock.expect(:code, '200')
+
     # the mock http object returned by OneSignal.build_http_object
     # expect that http.request(request) will be called
     http_mock = MiniTest::Mock.new
-    http_mock.expect(:request, nil, [request_mock])
+    http_mock.expect(:request, response_mock, [request_mock])
 
     # expect that OneSignal.build_post_request will be called
     build_post_request_params = {uri: uri, body: @create_params}

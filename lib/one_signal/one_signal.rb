@@ -19,7 +19,7 @@ module OneSignal
     def initialize
       unless @@api_key && !@@api_key.strip.empty?
         msg = "No API provided"
-        raise OneSignalError.new(msg)
+        raise OneSignalError.new(message: msg)
       end
     end
 

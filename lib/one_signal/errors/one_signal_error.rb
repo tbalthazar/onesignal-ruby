@@ -1,27 +1,20 @@
 module OneSignal
   class OneSignalError < StandardError
     attr_reader :message
-    # attr_reader :http_status
-    # attr_reader :http_body
-    # attr_reader :http_headers
-    # attr_reader :request_id
-    # attr_reader :json_body
+    attr_reader :http_status
+    attr_reader :http_body
 
-    # def initialize(message=nil, http_status=nil, http_body=nil, json_body=nil,
-    def initialize(message=nil)
+    def initialize(message: nil, http_status: nil, http_body: nil)
       @message = message
-      # @http_status = http_status
-      # @http_body = http_body
-      # @http_headers = http_headers || {}
-      # @json_body = json_body
-      # @request_id = @http_headers[:request_id]
+      @http_status = http_status
+      @http_body = http_body
     end
 
     def to_s
-      # status_string = @http_status.nil? ? "" : "(Status #{@http_status}) "
-      # id_string = @request_id.nil? ? "" : "(Request #{@request_id}) "
-      # "#{status_string}#{id_string}#{@message}"
-      @message
+      status_string = @http_status.nil? ? "" : "(Status #{@http_status}) "
+      message_string = @mesage.nil? ? "" : "Message : #{@message} "
+      body_string = @http_body.nil? ? "" : "Body : #{@http_body} "
+      "#{status_string}#{@message}#{body_string}"
     end
   end
 end
