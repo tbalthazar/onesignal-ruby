@@ -3,7 +3,7 @@ require File.expand_path('lib/one_signal/version')
 Gem::Specification.new do |s|
   s.add_runtime_dependency 'json', '~> 1.8'
   s.add_development_dependency 'rake', '~> 10.4'
-  # s.add_development_dependency 'fakeweb', '~> 1.3'
+  s.add_development_dependency 'mocha'
   s.add_development_dependency 'dotenv', '~> 2.0'
   s.name        = 'one_signal'
   s.version     = OneSignal::VERSION

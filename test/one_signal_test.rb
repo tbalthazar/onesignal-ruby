@@ -12,43 +12,40 @@ class OneSignalTest < MiniTest::Test
     OneSignal::OneSignal.api_key = nil
   end
 
-  def test_build_request_with_nil_api_key_raises_an_error
+  def test_send_post_request_with_nil_api_key
+    OneSignal::OneSignal.api_key = nil 
     assert_raises OneSignal::OneSignalError do
-      one_signal = OneSignal::OneSignal.new
+      OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
     end
   end
-
-  def test_build_request_with_empty_api_key_raises_an_error
+  
+  def test_send_post_request_with_empty_api_key
     OneSignal::OneSignal.api_key = "  "
     assert_raises OneSignal::OneSignalError do
-      one_signal = OneSignal::OneSignal.new
+      OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
     end
   end
 
-  def test_build_request_with_api_key
-    OneSignal::OneSignal.api_key = @api_key
-    refute_nil OneSignal::OneSignal.new
-  end
+  def test_send_post_request
+    # test request creation
+    request = mock()
+    request.expects(:body=).with(@body.to_json)
+    request.expects(:add_field).with("Content-Type", "application/json")
+    request.expects(:add_field).with("Authorization", "Basic #{@api_key}")
+    Net::HTTP::Post.expects(:new).with(@uri.request_uri).returns(request)
 
-  def test_build_post_request
-    OneSignal::OneSignal.api_key = @api_key
-    request = OneSignal::OneSignal.build_post_request(uri: @uri,
-                                                      body: @body) 
-    assert_equal "POST", request.method
-    assert_equal @uri.path, request.path
-    assert_equal @body.to_json, request.body
-    assert_equal "application/json", request['Content-Type']
-    assert_equal "Basic #{@api_key}", request['Authorization']
-  end
+    # test http object creation
+    use_ssl = @uri.scheme == 'https'
+    http = mock()
+    http.expects(:use_ssl=).with(use_ssl)
+    Net::HTTP.expects(:new).with(@uri.host, @uri.port).returns(http)
 
-  def test_build_http_object
+    # test send request
+    response = mock()
+    http.expects(:request).with(request).returns(response)
+
     OneSignal::OneSignal.api_key = @api_key
-    http = OneSignal::OneSignal.build_http_object(uri: @uri)
-    refute_nil http
-    assert_equal @uri.host, http.address
-    assert_equal @uri.port, http.port
-    use_ssl = @uri.scheme=='https'
-    assert_equal use_ssl, http.use_ssl?
+    assert_equal response, OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
   end
 
 end

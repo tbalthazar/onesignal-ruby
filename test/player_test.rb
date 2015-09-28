@@ -3,27 +3,31 @@ require File.dirname(__FILE__) + '/helper'
 class PlayerTest < MiniTest::Test
 
   def setup
+    @uri = URI.parse("https://onesignal.com/api/v1/players")
     @create_params = {
       foo: "bar",
       widget: "acme"
     }
     @api_key = "fake api key"
+    OneSignal::OneSignal.api_key = @api_key
   end
 
-  def test_create_sends_requests_with_params
-    uri = URI.parse("https://onesignal.com/api/v1/players")
-    expect_post_request uri: uri, params: @create_params, http_status: "200" do 
+  def test_create_raises_error    
+    response = mock_response_ko
+    OneSignal::OneSignal.expects(:send_post_request)
+                        .with(uri: @uri, body: @create_params)
+                        .returns(response)
+    assert_raises OneSignal::OneSignalError do
       OneSignal::Player.create(@create_params)
     end
   end
 
-  def test_create_raises_error
-    uri = URI.parse("https://onesignal.com/api/v1/players")
-    expect_post_request uri: uri, params: @create_params, http_status: "400" do 
-      assert_raises OneSignal::OneSignalError do
-        OneSignal::Player.create(@create_params)
-      end
-    end
+  def test_create
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_post_request)
+                        .with(uri: @uri, body: @create_params)
+                        .returns(response)
+    assert_equal response, OneSignal::Player.create(@create_params)
   end
 
 end

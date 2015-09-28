@@ -6,11 +6,9 @@ module OneSignal
       uri_string = @@base_uri
       uri_string += "/players"
       uri = URI.parse(uri_string)
-
-      request = build_post_request(uri: uri, body: params)
-      http = build_http_object(uri: uri)
       
-      response = http.request(request)
+      response = send_post_request(uri: uri, body: params)
+
       if response.code != '200'
         raise OneSignalError.new(message: "Post request error",
                                  http_status: response.code,
