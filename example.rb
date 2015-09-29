@@ -56,4 +56,5 @@ def notify
   end
 end
 
-notify
+create_player
+# notify

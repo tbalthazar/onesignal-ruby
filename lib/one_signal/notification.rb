@@ -10,7 +10,8 @@ module OneSignal
       response = send_post_request(uri: uri, body: params)
 
       if response.code != '200'
-        raise OneSignalError.new(message: "Create Notification error",
+        msg = "Create Notification error - uri: #{uri} params: #{params}"
+        raise OneSignalError.new(message: msg,
                                  http_status: response.code,
                                  http_body: response.body)
       end
