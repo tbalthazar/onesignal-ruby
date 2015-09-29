@@ -3,7 +3,7 @@ require File.expand_path('lib/one_signal/version')
 Gem::Specification.new do |s|
   s.add_runtime_dependency 'json', '~> 1.8'
   s.add_development_dependency 'rake', '~> 10.4'
-  s.add_development_dependency 'mocha'
+  s.add_development_dependency 'mocha', '~> 1.1'
   s.add_development_dependency 'dotenv', '~> 2.0'
   s.name        = 'one_signal'
   s.version     = OneSignal::VERSION
@@ -13,6 +13,6 @@ Gem::Specification.new do |s|
   s.email       = 'thomas@balthazar.info'
   s.files       = `git ls-files`.split("\n")
   s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.homepage    = 'https://github.com/tbalthazar/onesignal'
+  s.homepage    = 'https://github.com/tbalthazar/onesignal-ruby'
   s.license     = 'MIT'
 end

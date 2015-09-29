@@ -49,6 +49,7 @@ def notify
     puts "message : #{response.message}"
     puts "body : #{response.body}"
   rescue OneSignal::OneSignalError => e
+    puts "--- error : #{e.inspect}"
     puts "-- message : #{e.message}"
     puts "-- status : #{e.http_status}"
     puts "-- body : #{e.http_body}"

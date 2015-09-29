@@ -18,7 +18,7 @@ module OneSignal
 
     def self.send_post_request(uri:, body:)
       unless @@api_key && !@@api_key.strip.empty?
-        msg = "No API provided"
+        msg = "No API key provided"
         raise OneSignalError.new(message: msg)
       end
 

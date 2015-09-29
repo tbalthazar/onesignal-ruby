@@ -8,13 +8,10 @@ module OneSignal
       @message = message
       @http_status = http_status
       @http_body = http_body
+      @message += " - http status : #{@http_status}" unless @http_status.nil?
+      @message += " - http body : #{@http_body}" unless @http_body.nil?
+      super(@message)
     end
 
-    def to_s
-      status_string = @http_status.nil? ? "" : "(Status #{@http_status}) "
-      message_string = @mesage.nil? ? "" : "Message : #{@message} "
-      body_string = @http_body.nil? ? "" : "Body : #{@http_body} "
-      "#{status_string}#{@message}#{body_string}"
-    end
   end
 end
