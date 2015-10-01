@@ -18,7 +18,7 @@ class NotificationTest < MiniTest::Test
                         .with(uri: @uri, body: @create_params)
                         .returns(response)
     assert_raises OneSignal::OneSignalError do
-      OneSignal::Notification.create(@create_params)
+      OneSignal::Notification.create(params: @create_params)
     end
   end
 
@@ -27,7 +27,7 @@ class NotificationTest < MiniTest::Test
     OneSignal::OneSignal.expects(:send_post_request)
                         .with(uri: @uri, body: @create_params)
                         .returns(response)
-    assert_equal response, OneSignal::Notification.create(@create_params)
+    assert_equal response, OneSignal::Notification.create(params: @create_params)
   end
 
 end

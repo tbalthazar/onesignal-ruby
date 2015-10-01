@@ -2,7 +2,7 @@ module OneSignal
 
   class Notification < OneSignal
 
-    def self.create(params = {})
+    def self.create(params: {})
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri = URI.parse(uri_string)
