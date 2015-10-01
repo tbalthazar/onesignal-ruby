@@ -14,15 +14,42 @@ def create_player
     device_type: 0,
     identifier: @device_token,
     tags: {
-      user_id: 'test2'
+      user_id: 'test2',
+      device_type: 'chrome'
     }
   }
 
   begin 
-    response = OneSignal::Player.create(params)
+    response = OneSignal::Player.create(params: params)
     puts "code : #{response.code}"
     puts "message : #{response.message}"
     puts "body : #{response.body}"
+    puts "id : #{JSON.parse(response.body).class}"
+    return JSON.parse(response.body)["id"]
+  rescue OneSignal::OneSignalError => e
+    puts "-- message : #{e.message}"
+    puts "-- status : #{e.http_status}"
+    puts "-- body : #{e.http_body}"
+  end
+end
+
+def update_player(id:)
+  params = {
+    app_id: @app_id,
+    device_type: 0,
+    identifier: @device_token,
+    tags: {
+      user_id: 'test2updated',
+      device_type: 'chrome'
+    }
+  }
+
+  begin 
+    response = OneSignal::Player.update(id: id, params: params)
+    puts "code : #{response.code}"
+    puts "message : #{response.message}"
+    puts "body : #{response.body}"
+    puts "id : #{JSON.parse(response.body).class}"
   rescue OneSignal::OneSignalError => e
     puts "-- message : #{e.message}"
     puts "-- status : #{e.http_status}"
@@ -37,9 +64,17 @@ def notify
       en: 'hey buddy'
     },
     tags: [
-      key: 'user_id',
-      relation: '=',
-      value: "test"
+      {
+        key: 'user_id',
+        relation: '=',
+        value: "test2"
+      },
+      { operator: 'AND' },
+      {
+        key: 'device_type',
+        relation: '=',
+        value: 'ios'
+      }
     ]
   }
 
@@ -56,5 +91,6 @@ def notify
   end
 end
 
-create_player
+player_id = create_player
+update_player(id: player_id)
 # notify

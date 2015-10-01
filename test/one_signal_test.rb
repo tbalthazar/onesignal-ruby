@@ -12,32 +12,50 @@ class OneSignalTest < MiniTest::Test
     OneSignal::OneSignal.api_key = nil
   end
 
-  def test_send_post_request_with_nil_api_key
+  def build_mock_request
+    request = mock()
+    request.expects(:body=).with(@body.to_json)
+    request.expects(:add_field).with("Content-Type", "application/json")
+    request.expects(:add_field).with("Authorization", "Basic #{@api_key}")
+    return request
+  end
+
+  def build_mock_http_object
+    use_ssl = @uri.scheme == 'https'
+    http = mock()
+    http.expects(:use_ssl=).with(use_ssl)
+    return http
+  end
+
+  def test_building_request_with_nil_api_key_raises_error
     OneSignal::OneSignal.api_key = nil 
+
     assert_raises OneSignal::OneSignalError do
       OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
     end
+    assert_raises OneSignal::OneSignalError do
+      OneSignal::OneSignal.send_put_request(uri: @uri, body: @body)
+    end
   end
   
-  def test_send_post_request_with_empty_api_key
+  def test_building_request_with_empty_api_key_raises_error
     OneSignal::OneSignal.api_key = "  "
+
     assert_raises OneSignal::OneSignalError do
       OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
+    end
+    assert_raises OneSignal::OneSignalError do
+      OneSignal::OneSignal.send_put_request(uri: @uri, body: @body)
     end
   end
 
   def test_send_post_request
     # test request creation
-    request = mock()
-    request.expects(:body=).with(@body.to_json)
-    request.expects(:add_field).with("Content-Type", "application/json")
-    request.expects(:add_field).with("Authorization", "Basic #{@api_key}")
+    request = build_mock_request
     Net::HTTP::Post.expects(:new).with(@uri.request_uri).returns(request)
 
     # test http object creation
-    use_ssl = @uri.scheme == 'https'
-    http = mock()
-    http.expects(:use_ssl=).with(use_ssl)
+    http = build_mock_http_object
     Net::HTTP.expects(:new).with(@uri.host, @uri.port).returns(http)
 
     # test send request
@@ -46,6 +64,23 @@ class OneSignalTest < MiniTest::Test
 
     OneSignal::OneSignal.api_key = @api_key
     assert_equal response, OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
+  end
+
+  def test_send_put_request
+    # test request creation
+    request = build_mock_request
+    Net::HTTP::Put.expects(:new).with(@uri.request_uri).returns(request)
+
+    # test http object creation
+    http = build_mock_http_object
+    Net::HTTP.expects(:new).with(@uri.host, @uri.port).returns(http)
+
+    # test send request
+    response = mock()
+    http.expects(:request).with(request).returns(response)
+
+    OneSignal::OneSignal.api_key = @api_key
+    assert_equal response, OneSignal::OneSignal.send_put_request(uri: @uri, body: @body)
   end
 
 end
