@@ -6,10 +6,13 @@ class OneSignalTest < MiniTest::Test
     @api_key = "fake_api_123"
     @body = "fake body"
     @uri = URI.parse("https://www.example.com/foo/bar")
+    @default_timeout = 30
   end
 
   def teardown
     OneSignal::OneSignal.api_key = nil
+    OneSignal::OneSignal.open_timeout = @default_timeout
+    OneSignal::OneSignal.read_timeout = @default_timeout
   end
 
   def build_mock_request
@@ -24,6 +27,8 @@ class OneSignalTest < MiniTest::Test
     use_ssl = @uri.scheme == 'https'
     http = mock()
     http.expects(:use_ssl=).with(use_ssl)
+    http.expects(:open_timeout=)
+    http.expects(:read_timeout=)
     return http
   end
 
@@ -47,6 +52,38 @@ class OneSignalTest < MiniTest::Test
     assert_raises OneSignal::OneSignalError do
       OneSignal::OneSignal.send_put_request(uri: @uri, body: @body)
     end
+  end
+
+  def test_default_timeout
+    assert_equal @default_timeout, OneSignal::OneSignal.open_timeout
+    assert_equal @default_timeout, OneSignal::OneSignal.read_timeout
+  end
+
+  def test_setting_timeout
+    open_timeout = OneSignal::OneSignal.open_timeout + 1
+    read_timeout = OneSignal::OneSignal.read_timeout + 2
+    OneSignal::OneSignal.open_timeout = open_timeout
+    OneSignal::OneSignal.read_timeout = read_timeout
+
+    assert_equal open_timeout, OneSignal::OneSignal.open_timeout
+    assert_equal read_timeout, OneSignal::OneSignal.read_timeout
+  end
+
+  def test_http_object
+    # test default timeout values
+    http_object = OneSignal::OneSignal.http_object(uri: @uri)
+    assert_equal @default_timeout, http_object.open_timeout
+    assert_equal @default_timeout, http_object.read_timeout
+
+    # change timeout values
+    open_timeout = OneSignal::OneSignal.open_timeout + 1
+    read_timeout = OneSignal::OneSignal.read_timeout + 2
+    OneSignal::OneSignal.open_timeout = open_timeout
+    OneSignal::OneSignal.read_timeout = read_timeout
+    http_object = OneSignal::OneSignal.http_object(uri: @uri)
+
+    assert_equal open_timeout, http_object.open_timeout
+    assert_equal read_timeout, http_object.read_timeout
   end
 
   def test_send_post_request

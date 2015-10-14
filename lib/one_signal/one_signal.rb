@@ -7,6 +7,8 @@ module OneSignal
   class OneSignal
     @@base_uri = "https://onesignal.com/api/v1"
     @@api_key = nil
+    @@open_timeout = 30
+    @@read_timeout = 30
 
     def self.api_key=(new_api_key)
       @@api_key = new_api_key
@@ -14,6 +16,30 @@ module OneSignal
 
     def self.api_key
       @@api_key
+    end
+
+    def self.open_timeout=(new_timeout)
+      @@open_timeout = new_timeout
+    end
+
+    def self.open_timeout
+      @@open_timeout
+    end
+
+    def self.read_timeout=(new_timeout)
+      @@read_timeout = new_timeout
+    end
+
+    def self.read_timeout
+      @@read_timeout
+    end
+
+    def self.http_object(uri:)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme == 'https'
+      http.open_timeout = @@open_timeout
+      http.read_timeout = @@read_timeout
+      return http
     end
 
     def self.send_post_request(uri:, body:)
@@ -53,12 +79,6 @@ module OneSignal
       request.add_field("Content-Type", "application/json")
       request.add_field("Authorization", "Basic #{@@api_key}")
       return request
-    end
-
-    def self.http_object(uri:)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == 'https'
-      return http
     end
 
   end
