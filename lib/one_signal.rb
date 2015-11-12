@@ -5,3 +5,4 @@ require 'one_signal/notification'
 
 # Errors
 require 'one_signal/errors/one_signal_error'
+require 'one_signal/errors/no_recipients_error'

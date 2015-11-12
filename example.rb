@@ -63,11 +63,13 @@ def notify
     contents: {
       en: 'hey buddy'
     },
+    ios_badgeType: 'None',
+    ios_badgeCount: 1,
     tags: [
       {
         key: 'user_id',
         relation: '=',
-        value: "test2"
+        value: "unknown"
       },
       { operator: 'AND' },
       {
@@ -79,18 +81,23 @@ def notify
   }
 
   begin 
-    response = OneSignal::Notification.create(params)
+    response = OneSignal::Notification.create(params: params)
     puts "code : #{response.code}"
     puts "message : #{response.message}"
     puts "body : #{response.body}"
+  rescue OneSignal::NoRecipientsError => e
+    puts "--- NoRecipientsError: #{e.inspect}"
+    puts "-- message : #{e.message}"
+    puts "-- status : #{e.http_status}"
+    puts "-- body : #{e.http_body}"
   rescue OneSignal::OneSignalError => e
-    puts "--- error : #{e.inspect}"
+    puts "--- OneSignalError  : #{e.inspect}"
     puts "-- message : #{e.message}"
     puts "-- status : #{e.http_status}"
     puts "-- body : #{e.http_body}"
   end
 end
 
-player_id = create_player
-update_player(id: player_id)
-# notify
+# player_id = create_player
+# update_player(id: player_id)
+notify

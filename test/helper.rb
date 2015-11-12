@@ -11,7 +11,14 @@ end
 
 def mock_response_ko
   response = mock()
-  response.expects(:code).returns("400").twice
-  response.expects(:body)
+  response.expects(:code).returns("400").at_least_once
+  response.expects(:body).at_least_once
+  return response
+end
+
+def mock_response_no_recipients
+  response = mock()
+  response.expects(:code).returns("400").at_least_once
+  response.expects(:body).returns('{"errors":["  Error: 0 Recipients."]}').at_least_once
   return response
 end

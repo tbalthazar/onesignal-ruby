@@ -12,12 +12,22 @@ class NotificationTest < MiniTest::Test
     OneSignal::OneSignal.api_key = @api_key
   end
 
-  def test_create_raises_error    
+  def test_create_raises_onesignal_error    
     response = mock_response_ko
     OneSignal::OneSignal.expects(:send_post_request)
                         .with(uri: @uri, body: @create_params)
                         .returns(response)
     assert_raises OneSignal::OneSignalError do
+      OneSignal::Notification.create(params: @create_params)
+    end
+  end
+
+  def test_create_raises_no_recipients_error    
+    response = mock_response_no_recipients
+    OneSignal::OneSignal.expects(:send_post_request)
+                        .with(uri: @uri, body: @create_params)
+                        .returns(response)
+    assert_raises OneSignal::NoRecipientsError do
       OneSignal::Notification.create(params: @create_params)
     end
   end
