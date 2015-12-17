@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 10.4'
   s.add_development_dependency 'mocha', '~> 1.1'
   s.add_development_dependency 'dotenv', '~> 2.0'
+  s.add_development_dependency 'minitest'
   s.name        = 'one_signal'
   s.version     = OneSignal::VERSION
   s.summary     = "A library which implements the OneSignal API"
