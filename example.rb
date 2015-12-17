@@ -98,6 +98,12 @@ def notify
   end
 end
 
+def csv_export
+  response = OneSignal::Player.csv_export(app_id: @app_id)
+  puts response.body
+end
+
 # player_id = create_player
 # update_player(id: player_id)
-notify
+# notify
+csv_export
