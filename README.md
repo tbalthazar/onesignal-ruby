@@ -18,3 +18,7 @@ See [CHANGELOG.txt](CHANGELOG.txt)
 ## Contributors
 
 They are [listed here](https://github.com/tbalthazar/onesignal-ruby/graphs/contributors), thanks to them!
+
+## License
+
+Please see [LICENSE](/LICENSE) for licensing details. 
