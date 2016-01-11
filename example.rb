@@ -103,7 +103,13 @@ def csv_export
   puts response.body
 end
 
+def all_players
+  response = OneSignal::Player.all(params: {app_id: @app_id, limit: 3})
+  puts response.body
+end
+
 # player_id = create_player
 # update_player(id: player_id)
 # notify
-csv_export
+# csv_export
+all_players

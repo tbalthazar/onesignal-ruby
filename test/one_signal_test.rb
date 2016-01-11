@@ -5,6 +5,7 @@ class OneSignalTest < MiniTest::Test
   def setup
     @api_key = "fake_api_123"
     @body = "fake body"
+    @params = {foo: 'bar', widget: 'acme'}
     @uri = URI.parse("https://www.example.com/foo/bar")
     @default_timeout = 30
   end
@@ -15,9 +16,9 @@ class OneSignalTest < MiniTest::Test
     OneSignal::OneSignal.read_timeout = @default_timeout
   end
 
-  def build_mock_request
+  def build_mock_request(body: nil)
     request = mock()
-    request.expects(:body=).with(@body.to_json)
+    request.expects(:body=).with(body.to_json) unless body.nil?
     request.expects(:add_field).with("Content-Type", "application/json")
     request.expects(:add_field).with("Authorization", "Basic #{@api_key}")
     return request
@@ -88,7 +89,7 @@ class OneSignalTest < MiniTest::Test
 
   def test_send_post_request
     # test request creation
-    request = build_mock_request
+    request = build_mock_request(body: @body)
     Net::HTTP::Post.expects(:new).with(@uri.request_uri).returns(request)
 
     # test http object creation
@@ -105,7 +106,7 @@ class OneSignalTest < MiniTest::Test
 
   def test_send_put_request
     # test request creation
-    request = build_mock_request
+    request = build_mock_request(body: @body)
     Net::HTTP::Put.expects(:new).with(@uri.request_uri).returns(request)
 
     # test http object creation
@@ -118,6 +119,27 @@ class OneSignalTest < MiniTest::Test
 
     OneSignal::OneSignal.api_key = @api_key
     assert_equal response, OneSignal::OneSignal.send_put_request(uri: @uri, body: @body)
+  end
+
+  def test_send_get_request
+    expected_uri = @uri.clone
+    expected_uri.query = URI.encode_www_form(@params)
+
+    # test request creation
+    request = build_mock_request
+    Net::HTTP::Get.expects(:new).with(expected_uri.request_uri).returns(request)
+
+    # test http object creation
+    http = build_mock_http_object
+    Net::HTTP.expects(:new).with(expected_uri.host, expected_uri.port).returns(http)
+
+    # test send request
+    response = mock()
+    http.expects(:request).with(request).returns(response)
+
+    OneSignal::OneSignal.api_key = @api_key
+    assert_equal response, OneSignal::OneSignal.send_get_request(uri: @uri,
+                                                                 params: @params)
   end
 
 end

@@ -66,6 +66,18 @@ module OneSignal
       response = http.request(request)
     end
 
+    def self.send_get_request(uri:, params: {})
+      ensure_api_key
+
+      uri.query = URI.encode_www_form(params)
+      request = Net::HTTP::Get.new(uri.request_uri)
+      request = request_with_headers(request: request)
+      
+      http = http_object(uri: uri)
+
+      response = http.request(request)
+    end
+
     private
 
     def self.ensure_api_key
