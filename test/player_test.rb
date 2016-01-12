@@ -7,8 +7,9 @@ class PlayerTest < MiniTest::Test
     @create_uri = URI.parse(base_url)
     @csv_export_uri = URI.parse(base_url + "/csv_export")
     @all_uri = URI.parse(base_url)
-    
     @player_id = "fake-id-123"
+    @get_uri = URI.parse(base_url + "/#{@player_id}")
+    
     @update_uri = URI.parse(base_url + "/#{@player_id}")
 
     @params = {
@@ -44,6 +45,14 @@ class PlayerTest < MiniTest::Test
                         .with(uri: @all_uri, params: @params)
                         .returns(response)
     assert_equal response, OneSignal::Player.all(params: @params)
+  end
+
+  def test_get
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_get_request)
+                        .with(uri: @get_uri, params: nil)
+                        .returns(response)
+    assert_equal response, OneSignal::Player.get(id: @player_id)
   end
 
   def test_create

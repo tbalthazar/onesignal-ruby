@@ -5,6 +5,7 @@ Dotenv.load
 api_key = ENV['ONESIGNAL_API_KEY']
 @app_id = ENV['ONESIGNAL_APP_ID']
 @device_token = "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabc3"
+@example_player_id = ENV['EXAMPLE_PLAYER_ID']
 
 OneSignal::OneSignal.api_key = api_key
 
@@ -108,8 +109,14 @@ def all_players
   puts response.body
 end
 
+def get_player
+  response = OneSignal::Player.get(id: @example_player_id)
+  puts response.body
+end
+
 # player_id = create_player
 # update_player(id: player_id)
 # notify
 # csv_export
-all_players
+# all_players
+get_player

@@ -34,6 +34,23 @@ module OneSignal
       return response
     end
 
+    def self.get(id:)
+      uri_string = @@base_uri
+      uri_string += "/players"
+      uri_string += "/#{id}"
+      uri = URI.parse(uri_string)
+    
+      response = send_get_request(uri: uri, params: nil)
+
+      ensure_http_status(response: response,
+                         status: '200',
+                         method_name: 'Get',
+                         uri: uri,
+                         params: nil)
+
+      return response
+    end
+
     def self.create(params: {})
       uri_string = @@base_uri
       uri_string += "/players"
