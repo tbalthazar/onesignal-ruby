@@ -9,8 +9,8 @@ class PlayerTest < MiniTest::Test
     @all_uri = URI.parse(base_url)
     @player_id = "fake-id-123"
     @get_uri = URI.parse(base_url + "/#{@player_id}")
-    
     @update_uri = URI.parse(base_url + "/#{@player_id}")
+    @create_session_uri = URI.parse(base_url + "/#{@player_id}/on_session")
 
     @params = {
       foo: "bar",
@@ -79,6 +79,14 @@ class PlayerTest < MiniTest::Test
                         .with(uri: @update_uri, body: @params)
                         .returns(response)
     assert_equal response, OneSignal::Player.update(id: @player_id, params: @params)
+  end
+
+  def test_create_session
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_post_request)
+                        .with(uri: @create_session_uri, body: @params)
+                        .returns(response)
+    assert_equal response, OneSignal::Player.create_session(id: @player_id, params: @params)
   end
 
 end
