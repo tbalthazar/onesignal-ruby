@@ -11,6 +11,7 @@ class PlayerTest < MiniTest::Test
     @get_uri = URI.parse(base_url + "/#{@player_id}")
     @update_uri = URI.parse(base_url + "/#{@player_id}")
     @create_session_uri = URI.parse(base_url + "/#{@player_id}/on_session")
+    @create_purchase_uri = URI.parse(base_url + "/#{@player_id}/on_purchase")
 
     @params = {
       foo: "bar",
@@ -86,7 +87,17 @@ class PlayerTest < MiniTest::Test
     OneSignal::OneSignal.expects(:send_post_request)
                         .with(uri: @create_session_uri, body: @params)
                         .returns(response)
-    assert_equal response, OneSignal::Player.create_session(id: @player_id, params: @params)
+    assert_equal response, OneSignal::Player.create_session(id: @player_id,
+                                                            params: @params)
+  end
+
+  def test_create_purchase
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_post_request)
+                        .with(uri: @create_purchase_uri, body: @params)
+                        .returns(response)
+    assert_equal response, OneSignal::Player.create_purchase(id: @player_id,
+                                                             params: @params)
   end
 
 end
