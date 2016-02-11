@@ -96,7 +96,25 @@ module OneSignal
 
       ensure_http_status(response: response,
                          status: '200',
-                         method_name: 'Create Session',
+                         method_name: 'Create Purchase',
+                         uri: uri,
+                         params: params)
+
+      return response
+    end
+
+    def self.create_focus(id:, params: {})
+      uri_string = @@base_uri
+      uri_string += "/players"
+      uri_string += "/#{id}"
+      uri_string += "/on_focus"
+      uri = URI.parse(uri_string)
+
+      response = send_post_request(uri: uri, body: params)
+
+      ensure_http_status(response: response,
+                         status: '200',
+                         method_name: 'Create Focus',
                          uri: uri,
                          params: params)
 

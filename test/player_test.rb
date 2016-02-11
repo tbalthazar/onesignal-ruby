@@ -12,6 +12,7 @@ class PlayerTest < MiniTest::Test
     @update_uri = URI.parse(base_url + "/#{@player_id}")
     @create_session_uri = URI.parse(base_url + "/#{@player_id}/on_session")
     @create_purchase_uri = URI.parse(base_url + "/#{@player_id}/on_purchase")
+    @create_focus_uri = URI.parse(base_url + "/#{@player_id}/on_focus")
 
     @params = {
       foo: "bar",
@@ -98,6 +99,15 @@ class PlayerTest < MiniTest::Test
                         .returns(response)
     assert_equal response, OneSignal::Player.create_purchase(id: @player_id,
                                                              params: @params)
+  end
+
+  def test_create_focus
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_post_request)
+                        .with(uri: @create_focus_uri, body: @params)
+                        .returns(response)
+    assert_equal response, OneSignal::Player.create_focus(id: @player_id,
+                                                          params: @params)
   end
 
 end
