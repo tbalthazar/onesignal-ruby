@@ -49,6 +49,23 @@ module OneSignal
       return response
     end
 
+    def self.update(id:, params: {})
+      uri_string = @@base_uri
+      uri_string += "/notifications"
+      uri_string += "/#{id}"
+      uri = URI.parse(uri_string)
+
+      response = send_put_request(uri: uri, body: params)
+
+      ensure_http_status(response: response,
+                         status: '200',
+                         method_name: 'Update',
+                         uri: uri,
+                         params: params)
+
+      return response
+    end
+
     private
 
     def self.handle_error(uri:, params:, response:)

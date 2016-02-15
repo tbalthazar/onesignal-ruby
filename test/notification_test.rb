@@ -6,6 +6,7 @@ class NotificationTest < MiniTest::Test
     @notification_id = "fake-id-123"
     base_url = "https://onesignal.com/api/v1/notifications"
     @create_uri = URI.parse(base_url)
+    @update_uri = URI.parse(base_url + "/#{@notification_id}")
     @all_uri = URI.parse(base_url)
     @get_uri = URI.parse(base_url + "/#{@notification_id}")
     @params = {
@@ -59,6 +60,15 @@ class NotificationTest < MiniTest::Test
                         .with(uri: @create_uri, body: @params)
                         .returns(response)
     assert_equal response, OneSignal::Notification.create(params: @params)
+  end
+
+  def test_update
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_put_request)
+                        .with(uri: @update_uri, body: @params)
+                        .returns(response)
+    assert_equal response, OneSignal::Notification.update(id: @notification_id,
+                                                          params: @params)
   end
 
 end
