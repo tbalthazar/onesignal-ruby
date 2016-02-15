@@ -2,6 +2,22 @@ module OneSignal
 
   class Notification < OneSignal
 
+    def self.all(params: {})
+      uri_string = @@base_uri
+      uri_string += "/notifications"
+      uri = URI.parse(uri_string)
+
+      response = send_get_request(uri: uri, params: params)
+
+      ensure_http_status(response: response,
+                         status: '200',
+                         method_name: 'All',
+                         uri: uri,
+                         params: params)
+
+      return response
+    end
+
     def self.get(id:, params:)
       uri_string = @@base_uri
       uri_string += "/notifications"
