@@ -80,6 +80,15 @@ module OneSignal
 
     private
 
+    def self.ensure_http_status(response:, status:, method_name:, uri:, params:)
+      if response.code != status.to_s
+        msg = "#{method_name} error - uri: #{uri} params: #{params}"
+        raise OneSignalError.new(message: msg,
+                                 http_status: response.code,
+                                 http_body: response.body)
+      end
+    end
+
     def self.ensure_api_key
       unless @@api_key && !@@api_key.strip.empty?
         msg = "No API key provided"
