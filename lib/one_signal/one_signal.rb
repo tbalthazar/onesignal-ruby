@@ -54,6 +54,18 @@ module OneSignal
       response = http.request(request)
     end
 
+    def self.send_delete_request(uri:, body:)
+      ensure_api_key
+
+      request = Net::HTTP::Delete.new(uri.request_uri)
+      request.body = body.to_json
+      request = request_with_headers(request: request)
+      
+      http = http_object(uri: uri)
+
+      response = http.request(request)
+    end
+
     def self.send_put_request(uri:, body:)
       ensure_api_key
 
