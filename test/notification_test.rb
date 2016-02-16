@@ -7,6 +7,7 @@ class NotificationTest < MiniTest::Test
     base_url = "https://onesignal.com/api/v1/notifications"
     @create_uri = URI.parse(base_url)
     @update_uri = URI.parse(base_url + "/#{@notification_id}")
+    @delete_uri = URI.parse(base_url + "/#{@notification_id}")
     @all_uri = URI.parse(base_url)
     @get_uri = URI.parse(base_url + "/#{@notification_id}")
     @params = {
@@ -68,6 +69,15 @@ class NotificationTest < MiniTest::Test
                         .with(uri: @update_uri, body: @params)
                         .returns(response)
     assert_equal response, OneSignal::Notification.update(id: @notification_id,
+                                                          params: @params)
+  end
+
+  def test_delete
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_delete_request)
+                        .with(uri: @delete_uri, params: @params)
+                        .returns(response)
+    assert_equal response, OneSignal::Notification.delete(id: @notification_id,
                                                           params: @params)
   end
 

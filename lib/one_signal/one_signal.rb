@@ -54,11 +54,11 @@ module OneSignal
       response = http.request(request)
     end
 
-    def self.send_delete_request(uri:, body:)
+    def self.send_delete_request(uri:, params: {})
       ensure_api_key
 
+      uri.query = URI.encode_www_form(params) unless params.nil?
       request = Net::HTTP::Delete.new(uri.request_uri)
-      request.body = body.to_json
       request = request_with_headers(request: request)
       
       http = http_object(uri: uri)
@@ -94,7 +94,7 @@ module OneSignal
 
     def self.ensure_http_status(response:, status:, method_name:, uri:, params:)
       if response.code != status.to_s
-        msg = "#{method_name} error - uri: #{uri} params: #{params}"
+        msg = "#{self.name}##{method_name} error - uri: #{uri} params: #{params}"
         raise OneSignalError.new(message: msg,
                                  http_status: response.code,
                                  http_body: response.body)

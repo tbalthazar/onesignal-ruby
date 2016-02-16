@@ -105,20 +105,24 @@ class OneSignalTest < MiniTest::Test
   end
 
   def test_send_delete_request
+    expected_uri = @uri.clone
+    expected_uri.query = URI.encode_www_form(@params)
+
     # test request creation
-    request = build_mock_request(body: @body)
-    Net::HTTP::Delete.expects(:new).with(@uri.request_uri).returns(request)
+    request = build_mock_request
+    Net::HTTP::Delete.expects(:new).with(expected_uri.request_uri).returns(request)
 
     # test http object creation
     http = build_mock_http_object
-    Net::HTTP.expects(:new).with(@uri.host, @uri.port).returns(http)
+    Net::HTTP.expects(:new).with(expected_uri.host, expected_uri.port).returns(http)
 
     # test send request
     response = mock()
     http.expects(:request).with(request).returns(response)
 
     OneSignal::OneSignal.api_key = @api_key
-    assert_equal response, OneSignal::OneSignal.send_delete_request(uri: @uri, body: @body)
+    assert_equal response, OneSignal::OneSignal.send_delete_request(uri: @uri,
+                                                                 params: @params)
   end
 
   def test_send_put_request

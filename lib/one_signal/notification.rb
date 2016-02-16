@@ -66,6 +66,23 @@ module OneSignal
       return response
     end
 
+    def self.delete(id:, params:)
+      uri_string = @@base_uri
+      uri_string += "/notifications"
+      uri_string += "/#{id}"
+      uri = URI.parse(uri_string)
+    
+      response = send_delete_request(uri: uri, params: params)
+
+      ensure_http_status(response: response,
+                         status: '200',
+                         method_name: 'Delete',
+                         uri: uri,
+                         params: nil)
+
+      return response
+    end
+
     private
 
     def self.handle_error(uri:, params:, response:)
