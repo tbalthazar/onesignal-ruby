@@ -1,3 +1,10 @@
+=== 0.0.12 2016-02-16
+
+* Add Notification#update method
+* Add Notification#all method
+* Add Notification#get method
+* Add method to send DELETE requests
+
 === 0.0.11 2016-02-11
 
 * Add Player#create_session method
