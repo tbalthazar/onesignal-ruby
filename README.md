@@ -28,8 +28,8 @@ Specify your API key:
 OneSignal::OneSignal.api_key = YOUR_API_KEY
 ```
 
-Then call the following methods on the `App`, `Player` and `Notifications` classes.
-The `params` argument is a ruby hash and the accepted/required values are documented in the [OneSignal API documentation](https://documentation.onesignal.com/docs/server-api-overview)
+Then call the following methods on the `App`, `Player` and `Notification` classes.
+The `params` argument in those methods is a ruby hash and the accepted/required keys for this hash are documented in the [OneSignal API documentation](https://documentation.onesignal.com/docs/server-api-overview)
 
 The return value of each method is a `Net::HTTPResponse`.
 
