@@ -1,3 +1,10 @@
+=== 0.0.13 2016-02-18
+
+* Add App#all method
+* Add App#get method
+* Add App#create method
+* Add App#update method
+
 === 0.0.12 2016-02-16
 
 * Add Notification#update method
