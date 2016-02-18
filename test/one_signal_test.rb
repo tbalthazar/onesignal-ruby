@@ -33,28 +33,6 @@ class OneSignalTest < MiniTest::Test
     return http
   end
 
-  def test_building_request_with_nil_api_key_raises_error
-    OneSignal::OneSignal.api_key = nil 
-
-    assert_raises OneSignal::OneSignalError do
-      OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
-    end
-    assert_raises OneSignal::OneSignalError do
-      OneSignal::OneSignal.send_put_request(uri: @uri, body: @body)
-    end
-  end
-  
-  def test_building_request_with_empty_api_key_raises_error
-    OneSignal::OneSignal.api_key = "  "
-
-    assert_raises OneSignal::OneSignalError do
-      OneSignal::OneSignal.send_post_request(uri: @uri, body: @body)
-    end
-    assert_raises OneSignal::OneSignalError do
-      OneSignal::OneSignal.send_put_request(uri: @uri, body: @body)
-    end
-  end
-
   def test_default_timeout
     assert_equal @default_timeout, OneSignal::OneSignal.open_timeout
     assert_equal @default_timeout, OneSignal::OneSignal.read_timeout

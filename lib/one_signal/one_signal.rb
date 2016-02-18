@@ -7,6 +7,7 @@ module OneSignal
   class OneSignal
     @@base_uri = "https://onesignal.com/api/v1"
     @@api_key = nil
+    @@user_auth_key = nil
     @@open_timeout = 30
     @@read_timeout = 30
 
@@ -16,6 +17,14 @@ module OneSignal
 
     def self.api_key
       @@api_key
+    end
+
+    def self.user_auth_key=(new_user_auth_key)
+      @@user_auth_key = new_user_auth_key
+    end
+
+    def self.user_auth_key
+      @@user_auth_key
     end
 
     def self.open_timeout=(new_timeout)
@@ -43,8 +52,6 @@ module OneSignal
     end
 
     def self.send_post_request(uri:, body:)
-      ensure_api_key
-
       request = Net::HTTP::Post.new(uri.request_uri)
       request.body = body.to_json
       request = request_with_headers(request: request)
@@ -55,8 +62,6 @@ module OneSignal
     end
 
     def self.send_delete_request(uri:, params: {})
-      ensure_api_key
-
       uri.query = URI.encode_www_form(params) unless params.nil?
       request = Net::HTTP::Delete.new(uri.request_uri)
       request = request_with_headers(request: request)
@@ -67,8 +72,6 @@ module OneSignal
     end
 
     def self.send_put_request(uri:, body:)
-      ensure_api_key
-
       request = Net::HTTP::Put.new(uri.request_uri)
       request.body = body.to_json
       request = request_with_headers(request: request)
@@ -79,8 +82,6 @@ module OneSignal
     end
 
     def self.send_get_request(uri:, params: {})
-      ensure_api_key
-
       uri.query = URI.encode_www_form(params) unless params.nil?
       request = Net::HTTP::Get.new(uri.request_uri)
       request = request_with_headers(request: request)
@@ -101,17 +102,14 @@ module OneSignal
       end
     end
 
-    def self.ensure_api_key
-      unless @@api_key && !@@api_key.strip.empty?
-        msg = "No API key provided"
-        raise OneSignalError.new(message: msg)
-      end
-    end
-
     def self.request_with_headers(request:)
       request.add_field("Content-Type", "application/json")
-      request.add_field("Authorization", "Basic #{@@api_key}")
+      request.add_field("Authorization", "Basic #{self.auth_key}")
       return request
+    end
+
+    def self.auth_key
+      return @@api_key
     end
 
   end
