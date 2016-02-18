@@ -35,7 +35,12 @@ The return value of each method is a `Net::HTTPResponse`.
 
 ### Apps
 
-TODO
+```ruby
+- OneSignal::App.all(params:)
+- OneSignal::App.get(id:)
+- OneSignal::App.create(params:)
+- OneSignal::App.update(id:, params:)
+```
 
 ### Players
 
