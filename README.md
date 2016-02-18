@@ -22,7 +22,13 @@ See basic examples in [example.rb](/example.rb)
 
 ## Documentation
 
-Specify your API key:
+Specify your User Auth key to deal with Apps :
+
+```ruby
+OneSignal::OneSignal.user_auth_key = YOUR_USER_AUTH_KEY
+```
+
+Specify your API key to deal with Players and Notifications:
 
 ```ruby
 OneSignal::OneSignal.api_key = YOUR_API_KEY
