@@ -1,3 +1,7 @@
+=== 0.0.14 2016-02-22
+
+* Change ruby required version from 2.2.0 to 2.1.0 
+
 === 0.0.13 2016-02-18
 
 * Add App#all method
