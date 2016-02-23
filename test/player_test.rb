@@ -33,12 +33,11 @@ class PlayerTest < MiniTest::Test
   end
 
   def test_csv_export
-    @app_id = "foobar"
     response = mock_response_ok
     OneSignal::OneSignal.expects(:send_post_request)
-                        .with(uri: @csv_export_uri, body: {app_id: @app_id})
+                        .with(uri: @csv_export_uri, body: @params)
                         .returns(response)
-    assert_equal response, OneSignal::Player.csv_export(app_id: @app_id)
+    assert_equal response, OneSignal::Player.csv_export(params: @params)
   end
 
   def test_all

@@ -2,12 +2,12 @@ module OneSignal
 
   class Player < OneSignal
 
-    def self.csv_export(app_id:)
+    def self.csv_export(params:)
       uri_string = @@base_uri
       uri_string += "/players/csv_export"
       uri = URI.parse(uri_string)
 
-      response = send_post_request(uri: uri, body: {app_id: app_id})
+      response = send_post_request(uri: uri, body: params)
 
       ensure_http_status(response: response,
                          status: '200',
