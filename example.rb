@@ -1,10 +1,12 @@
 require 'one_signal'
 require 'dotenv'
 
+# load your keys with https://github.com/bkeepers/dotenv
 Dotenv.load
 api_key = ENV['ONESIGNAL_API_KEY']
 user_auth_key = ENV['ONESIGNAL_USER_AUTH_KEY']
 
+# configure OneSignal
 OneSignal::OneSignal.api_key = api_key
 OneSignal::OneSignal.user_auth_key = user_auth_key
 
