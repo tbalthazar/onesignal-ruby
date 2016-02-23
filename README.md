@@ -18,7 +18,11 @@ bundle exec rake
 
 ## Basic usage
 
-See basic examples in [example.rb](/example.rb)
+See basic examples in [example.rb](/example.rb).
+To run it:
+- rename [.env.example](/.env.example) into `.env`
+- set your `USER_AUTH_KEY` and `API_KEY` in the `.env` file
+- run `ruby example.rb`
 
 ## Documentation
 
