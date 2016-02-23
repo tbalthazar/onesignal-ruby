@@ -56,7 +56,7 @@ The return value of each method is a `Net::HTTPResponse`.
 
 ```ruby
 - OneSignal::Player.all(params:)
-- OneSignal::Player.csv_export(app_id:)
+- OneSignal::Player.csv_export(params:)
 - OneSignal::Player.get(id:)
 - OneSignal::Player.create(params:)
 - OneSignal::Player.create_session(id:, params:)
