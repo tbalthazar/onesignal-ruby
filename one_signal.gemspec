@@ -2,7 +2,6 @@ require File.expand_path('lib/one_signal/version')
 
 Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.1.0'
-  s.add_runtime_dependency 'json', '~> 1.8'
   s.add_development_dependency 'rake', '~> 10.4'
   s.add_development_dependency 'mocha', '~> 1.1'
   s.add_development_dependency 'dotenv', '~> 2.0'
