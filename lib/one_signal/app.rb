@@ -18,7 +18,7 @@ module OneSignal
       return response
     end
 
-    def self.get(id:)
+    def self.get(id: "")
       uri_string = @@base_uri
       uri_string += "/apps"
       uri_string += "/#{id}"
@@ -51,7 +51,7 @@ module OneSignal
       return response
     end
     
-    def self.update(id:, params: {})
+    def self.update(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/apps"
       uri_string += "/#{id}"

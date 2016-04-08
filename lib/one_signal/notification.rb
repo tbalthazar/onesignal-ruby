@@ -18,7 +18,7 @@ module OneSignal
       return response
     end
 
-    def self.get(id:, params:)
+    def self.get(id: "", params:)
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri_string += "/#{id}"
@@ -49,7 +49,7 @@ module OneSignal
       return response
     end
 
-    def self.update(id:, params: {})
+    def self.update(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri_string += "/#{id}"
@@ -66,7 +66,7 @@ module OneSignal
       return response
     end
 
-    def self.delete(id:, params:)
+    def self.delete(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri_string += "/#{id}"
@@ -85,21 +85,26 @@ module OneSignal
 
     private
 
-    def self.handle_error(uri:, params:, response:)
+    def self.handle_error(uri: nil, params: {}, response: nil)
       msg = "Create Notification error - uri: #{uri} params: #{params}"
+      unless response.nil?
+        code = response.code
+        body = response.body
+      end
       if is_no_recipients_error(response: response)
         raise NoRecipientsError.new(message: msg,
-                                    http_status: response.code,
-                                    http_body: response.body)
+                                    http_status: code,
+                                    http_body: body)
       else
         raise OneSignalError.new(message: msg,
-                                 http_status: response.code,
-                                 http_body: response.body)
+                                 http_status: code,
+                                 http_body: body)
       end
     end
 
-    def self.is_no_recipients_error(response:)
-      return false if response.code != '400' ||
+    def self.is_no_recipients_error(response: nil)
+      return false if response.nil? ||
+                      response.code != '400' ||
                       response.body.nil?
 
       body = JSON.parse(response.body)

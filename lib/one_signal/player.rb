@@ -2,7 +2,7 @@ module OneSignal
 
   class Player < OneSignal
 
-    def self.csv_export(params:)
+    def self.csv_export(params: {})
       uri_string = @@base_uri
       uri_string += "/players/csv_export"
       uri = URI.parse(uri_string)
@@ -34,7 +34,7 @@ module OneSignal
       return response
     end
 
-    def self.get(id:)
+    def self.get(id: "")
       uri_string = @@base_uri
       uri_string += "/players"
       uri_string += "/#{id}"
@@ -67,7 +67,7 @@ module OneSignal
       return response
     end
 
-    def self.create_session(id:, params: {})
+    def self.create_session(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/players"
       uri_string += "/#{id}"
@@ -85,7 +85,7 @@ module OneSignal
       return response
     end
 
-    def self.create_purchase(id:, params: {})
+    def self.create_purchase(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/players"
       uri_string += "/#{id}"
@@ -103,7 +103,7 @@ module OneSignal
       return response
     end
 
-    def self.create_focus(id:, params: {})
+    def self.create_focus(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/players"
       uri_string += "/#{id}"
@@ -121,7 +121,7 @@ module OneSignal
       return response
     end
 
-    def self.update(id:, params: {})
+    def self.update(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/players"
       uri_string += "/#{id}"
