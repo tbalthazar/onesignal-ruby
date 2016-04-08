@@ -18,7 +18,7 @@ module OneSignal
       return response
     end
 
-    def self.get(id: "", params:)
+    def self.get(id: "", params: {})
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri_string += "/#{id}"
