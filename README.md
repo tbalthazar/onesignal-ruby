@@ -26,7 +26,7 @@ To run it:
 
 ## Documentation
 
-Specify your User Auth key to deal with Apps :
+Specify your User Auth key to deal with Apps:
 
 ```ruby
 OneSignal::OneSignal.user_auth_key = YOUR_USER_AUTH_KEY
@@ -40,6 +40,22 @@ OneSignal::OneSignal.api_key = YOUR_API_KEY
 
 Then call the following methods on the `App`, `Player` and `Notification` classes.
 The `params` argument in those methods is a ruby hash and the accepted/required keys for this hash are documented in the [OneSignal API documentation](https://documentation.onesignal.com/docs/server-api-overview)
+
+Each method also accepts an optional `opts` hash that allows you to specify the `user_auth_key`/`api_key` on a per method basis. It allows a ruby app to talk to several different OneSignal apps:
+
+```ruby
+app_1_api_key = "fake api key 1"
+app_2_api_key = "fake api key 2"
+
+# by default, method calls will use app_1_api_key
+OneSignal::OneSignal.api_key = app_1_api_key
+
+# get player with id "123" in app_1
+OneSignal::Player.get(id: "123")
+
+# get player with id "456" in app_2
+OneSignal::Player.get(id: "123", opts: {auth_key: app_2_api_key})
+```
 
 The return value of each method is a `Net::HTTPResponse`.
 

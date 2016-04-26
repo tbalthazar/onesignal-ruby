@@ -1,3 +1,7 @@
+=== 1.2.0 2016-04-26
+
+* Add an optional `opts` hash to each method. It allows to specify the auth_key on a per method basis. A ruby app can now talk to several different OneSignal apps.
+
 === 1.1.0 2016-04-08
 
 * Add compatibility with Ruby 2.0
