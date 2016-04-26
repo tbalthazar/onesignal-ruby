@@ -2,6 +2,8 @@
 
 This gem provides a simple SDK to access the [OneSignal API](https://documentation.onesignal.com/docs/server-api-overview).
 
+Also check my [onesignal-go](https://github.com/tbalthazar/onesignal-go) library.
+
 ## Installation
 
 ```
