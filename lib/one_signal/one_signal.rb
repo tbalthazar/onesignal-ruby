@@ -124,10 +124,6 @@ module OneSignal
       return request
     end
 
-    def self.auth_key
-      return @@api_key
-    end
-
   end
 
 end
