@@ -2,12 +2,14 @@ module OneSignal
 
   class Notification < OneSignal
 
-    def self.all(params: {})
+    def self.all(params: {}, opts: {})
+      opts[:auth_key] ||= @@api_key
+
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri = URI.parse(uri_string)
 
-      response = send_get_request(uri: uri, params: params)
+      response = send_get_request(uri: uri, params: params, opts: opts)
 
       ensure_http_status(response: response,
                          status: '200',
@@ -18,13 +20,15 @@ module OneSignal
       return response
     end
 
-    def self.get(id: "", params: {})
+    def self.get(id: "", params: {}, opts: {})
+      opts[:auth_key] ||= @@api_key
+
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri_string += "/#{id}"
       uri = URI.parse(uri_string)
     
-      response = send_get_request(uri: uri, params: params)
+      response = send_get_request(uri: uri, params: params, opts: opts)
 
       ensure_http_status(response: response,
                          status: '200',
@@ -35,12 +39,14 @@ module OneSignal
       return response
     end
 
-    def self.create(params: {})
+    def self.create(params: {}, opts: {})
+      opts[:auth_key] ||= @@api_key
+      
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri = URI.parse(uri_string)
-      
-      response = send_post_request(uri: uri, body: params)
+
+      response = send_post_request(uri: uri, body: params, opts: opts)
 
       if response.code != '200'
         handle_error(uri: uri, params: params, response: response)
@@ -49,13 +55,15 @@ module OneSignal
       return response
     end
 
-    def self.update(id: "", params: {})
+    def self.update(id: "", params: {}, opts: {})
+      opts[:auth_key] ||= @@api_key
+
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri_string += "/#{id}"
       uri = URI.parse(uri_string)
 
-      response = send_put_request(uri: uri, body: params)
+      response = send_put_request(uri: uri, body: params, opts: opts)
 
       ensure_http_status(response: response,
                          status: '200',
@@ -66,13 +74,15 @@ module OneSignal
       return response
     end
 
-    def self.delete(id: "", params: {})
+    def self.delete(id: "", params: {}, opts: {})
+      opts[:auth_key] ||= @@api_key
+
       uri_string = @@base_uri
       uri_string += "/notifications"
       uri_string += "/#{id}"
       uri = URI.parse(uri_string)
     
-      response = send_delete_request(uri: uri, params: params)
+      response = send_delete_request(uri: uri, params: params, opts: opts)
 
       ensure_http_status(response: response,
                          status: '200',

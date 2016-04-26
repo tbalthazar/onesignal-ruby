@@ -53,48 +53,48 @@ module OneSignal
       return http
     end
 
-    def self.send_post_request(uri: nil, body: nil)
+    def self.send_post_request(uri: nil, body: nil, opts: {})
       return nil if uri.nil?
 
       request = Net::HTTP::Post.new(uri.request_uri)
       request.body = body.to_json
-      request = request_with_headers(request: request)
+      request = request_with_headers(request: request, opts: opts)
       
       http = http_object(uri: uri)
 
       return http.request(request)
     end
 
-    def self.send_delete_request(uri: nil, params: {})
+    def self.send_delete_request(uri: nil, params: {}, opts: {})
       return nil if uri.nil?
 
       uri.query = URI.encode_www_form(params) unless params.nil?
       request = Net::HTTP::Delete.new(uri.request_uri)
-      request = request_with_headers(request: request)
+      request = request_with_headers(request: request, opts: opts)
       
       http = http_object(uri: uri)
 
       return http.request(request)
     end
 
-    def self.send_put_request(uri: nil, body: nil)
+    def self.send_put_request(uri: nil, body: nil, opts: {})
       return nil if uri.nil?
 
       request = Net::HTTP::Put.new(uri.request_uri)
       request.body = body.to_json
-      request = request_with_headers(request: request)
+      request = request_with_headers(request: request, opts: opts)
       
       http = http_object(uri: uri)
 
       return http.request(request)
     end
 
-    def self.send_get_request(uri: nil, params: {})
+    def self.send_get_request(uri: nil, params: {}, opts: {})
       return nil if uri.nil?
 
       uri.query = URI.encode_www_form(params) unless params.nil?
       request = Net::HTTP::Get.new(uri.request_uri)
-      request = request_with_headers(request: request)
+      request = request_with_headers(request: request, opts: opts)
       
       http = http_object(uri: uri)
 
@@ -116,11 +116,11 @@ module OneSignal
       end
     end
 
-    def self.request_with_headers(request: nil)
+    def self.request_with_headers(request: nil, opts: {})
       return nil if request.nil?
 
       request.add_field("Content-Type", "application/json")
-      request.add_field("Authorization", "Basic #{self.auth_key}")
+      request.add_field("Authorization", "Basic #{opts[:auth_key]}")
       return request
     end
 
