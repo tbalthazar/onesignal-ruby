@@ -41,7 +41,7 @@ OneSignal::OneSignal.api_key = YOUR_API_KEY
 ```
 
 Then call the following methods on the `App`, `Player` and `Notification` classes.
-The `params` argument in those methods is a ruby hash and the accepted/required keys for this hash are documented in the [OneSignal API documentation](https://documentation.onesignal.com/docs/server-api-overview)
+The `params` argument in those methods is a ruby hash and the accepted/required keys for this hash are documented in the [OneSignal API documentation](https://documentation.onesignal.com/reference)
 
 Each method also accepts an optional `opts` hash that allows you to specify the `user_auth_key`/`api_key` on a per method basis. It allows a ruby app to talk to several different OneSignal apps:
 
