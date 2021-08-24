@@ -45,7 +45,7 @@ module OneSignal
       uri_string += "/players"
       uri_string += "/#{id}"
       uri = URI.parse(uri_string)
-    
+
       response = send_get_request(uri: uri, params: nil, opts: opts)
 
       ensure_http_status(response: response,
@@ -150,6 +150,25 @@ module OneSignal
                          method_name: 'Update',
                          uri: uri,
                          params: params)
+
+      return response
+    end
+
+    def self.delete(id: "", opts: {})
+      opts[:auth_key] ||= @@api_key
+
+      uri_string = @@base_uri
+      uri_string += "/players"
+      uri_string += "/#{id}"
+      uri = URI.parse(uri_string)
+
+      response = send_delete_request(uri: uri, params: nil, opts: opts)
+
+      ensure_http_status(response: response,
+                         status: '200',
+                         method_name: 'Delete',
+                         uri: uri,
+                         params: nil)
 
       return response
     end

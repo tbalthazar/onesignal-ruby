@@ -10,6 +10,7 @@ class PlayerTest < MiniTest::Test
     @player_id = "fake-id-123"
     @get_uri = URI.parse(base_url + "/#{@player_id}")
     @update_uri = URI.parse(base_url + "/#{@player_id}")
+    @delete_uri = URI.parse(base_url + "/#{@player_id}")
     @create_session_uri = URI.parse(base_url + "/#{@player_id}/on_session")
     @create_purchase_uri = URI.parse(base_url + "/#{@player_id}/on_purchase")
     @create_focus_uri = URI.parse(base_url + "/#{@player_id}/on_focus")
@@ -192,6 +193,22 @@ class PlayerTest < MiniTest::Test
     assert_equal response, OneSignal::Player.create_focus(id: @player_id,
                                                           params: @params,
                                                           opts: @opts)
+  end
+
+  def test_delete
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_delete_request)
+                        .with(uri: @delete_uri, params: nil, opts: @default_opts)
+                        .returns(response)
+    assert_equal response, OneSignal::Player.delete(id: @player_id)
+  end
+
+  def test_delete_with_auth_key
+    response = mock_response_ok
+    OneSignal::OneSignal.expects(:send_delete_request)
+                        .with(uri: @delete_uri, params: nil, opts: @opts)
+                        .returns(response)
+    assert_equal response, OneSignal::Player.delete(id: @player_id, opts: @opts)
   end
 
 end
