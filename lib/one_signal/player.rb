@@ -154,7 +154,7 @@ module OneSignal
       return response
     end
 
-    def self.delete(id: "", opts: {})
+    def self.delete(id: "", params: {}, opts: {})
       opts[:auth_key] ||= @@api_key
 
       uri_string = @@base_uri
@@ -162,7 +162,7 @@ module OneSignal
       uri_string += "/#{id}"
       uri = URI.parse(uri_string)
 
-      response = send_delete_request(uri: uri, params: nil, opts: opts)
+      response = send_delete_request(uri: uri, params: params, opts: opts)
 
       ensure_http_status(response: response,
                          status: '200',

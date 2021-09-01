@@ -198,17 +198,20 @@ class PlayerTest < MiniTest::Test
   def test_delete
     response = mock_response_ok
     OneSignal::OneSignal.expects(:send_delete_request)
-                        .with(uri: @delete_uri, params: nil, opts: @default_opts)
+                        .with(uri: @delete_uri, params: @params, opts: @default_opts)
                         .returns(response)
-    assert_equal response, OneSignal::Player.delete(id: @player_id)
+    assert_equal response, OneSignal::Player.delete(id: @player_id,
+                                                    params: @params)
   end
 
   def test_delete_with_auth_key
     response = mock_response_ok
     OneSignal::OneSignal.expects(:send_delete_request)
-                        .with(uri: @delete_uri, params: nil, opts: @opts)
+                        .with(uri: @delete_uri, params: @params, opts: @opts)
                         .returns(response)
-    assert_equal response, OneSignal::Player.delete(id: @player_id, opts: @opts)
+    assert_equal response, OneSignal::Player.delete(id: @player_id,
+                                                    params: @params,
+                                                    opts: @opts)
   end
 
 end
