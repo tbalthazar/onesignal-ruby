@@ -1,3 +1,7 @@
+=== 1.2.1 2021-09-01
+
+* Add a method to delete a player: https://github.com/tbalthazar/onesignal-ruby/pull/18
+
 === 1.2.0 2016-04-26
 
 * Add an optional `opts` hash to each method. It allows to specify the auth_key on a per method basis. A ruby app can now talk to several different OneSignal apps.

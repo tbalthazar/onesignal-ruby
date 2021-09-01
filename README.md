@@ -1,4 +1,4 @@
-# OneSignal Ruby bindings [![Build Status](https://travis-ci.org/tbalthazar/onesignal-ruby.svg?branch=master)](https://travis-ci.org/tbalthazar/onesignal-ruby)
+# OneSignal Ruby bindings
 
 This gem provides a simple SDK to access the [OneSignal API](https://documentation.onesignal.com/reference).
 
