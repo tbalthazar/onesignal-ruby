@@ -12,19 +12,22 @@ gem install one_signal
 
 ## Development
 
+Run `bin/setup` to install dependencies and set your API keys.
+
 Run the tests
 
 ```
 bundle exec rake
 ```
 
+You can also run `bin/console` for an interactive prompt that will allow you to experiment with authenticated library methods.
+
 ## Basic usage
 
-See basic examples in [example.rb](/example.rb).
+See some basic examples in [example.rb](/example.rb).
 To run it:
-- rename [.env.example](/.env.example) into `.env`
-- set your `USER_AUTH_KEY` and `API_KEY` in the `.env` file
-- run `ruby example.rb`
+- run `bin/setup` to set your API keys
+- then run `ruby example.rb`
 
 ## Documentation
 
@@ -81,6 +84,7 @@ The return value of each method is a `Net::HTTPResponse`.
 - OneSignal::Player.create_purchase(id:, params:)
 - OneSignal::Player.create_focus(id:, params:)
 - OneSignal::Player.update(id:, params:)
+- OneSignal::Player.delete(id:, params:)
 ```
 
 ### Notifications
@@ -103,4 +107,4 @@ They are [listed here](https://github.com/tbalthazar/onesignal-ruby/graphs/contr
 
 ## License
 
-Please see [LICENSE](/LICENSE) for licensing details. 
+Please see [LICENSE](/LICENSE) for licensing details.
