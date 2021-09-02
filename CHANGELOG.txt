@@ -1,3 +1,7 @@
+=== 1.2.2 2021-09-02
+
+* Fix delete a player method to include `params` argument: https://github.com/tbalthazar/onesignal-ruby/pull/20
+
 === 1.2.1 2021-09-01
 
 * Add a method to delete a player: https://github.com/tbalthazar/onesignal-ruby/pull/18
@@ -16,7 +20,7 @@
 
 === 0.0.14 2016-02-22
 
-* Change ruby required version from 2.2.0 to 2.1.0 
+* Change ruby required version from 2.2.0 to 2.1.0
 
 === 0.0.13 2016-02-18
 
