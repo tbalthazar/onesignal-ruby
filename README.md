@@ -12,19 +12,22 @@ gem install one_signal
 
 ## Development
 
+Run `bin/setup` to install dependencies and set your API keys.
+
 Run the tests
 
 ```
 bundle exec rake
 ```
 
+You can also run `bin/console` for an interactive prompt that will allow you to experiment with authenticated library methods.
+
 ## Basic usage
 
-See basic examples in [example.rb](/example.rb).
+See some basic examples in [example.rb](/example.rb).
 To run it:
-- rename [.env.example](/.env.example) into `.env`
-- set your `USER_AUTH_KEY` and `API_KEY` in the `.env` file
-- run `ruby example.rb`
+- run `bin/setup` to set your API keys
+- then run `ruby example.rb`
 
 ## Documentation
 
