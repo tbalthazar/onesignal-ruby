@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+bundle install
+
+echo "Enter your OneSignal credentials."
+echo "For dealing with Apps, you'll need a user auth key."
+read -p 'User Auth Key: ' user_auth_key
+echo "For dealing with Players and Notifications, you'll need an API key."
+read -p 'API Key: ' api_key
+
+cp .env.example .env
+
+sed -i '' -e "s/YOUR_USER_AUTH_KEY_HERE/$user_auth_key/g" .env
+sed -i '' -e "s/YOUR_API_KEY_HERE/$api_key/g" .env
+
+echo "Done."
