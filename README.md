@@ -84,6 +84,7 @@ The return value of each method is a `Net::HTTPResponse`.
 - OneSignal::Player.create_purchase(id:, params:)
 - OneSignal::Player.create_focus(id:, params:)
 - OneSignal::Player.update(id:, params:)
+- OneSignal::Player.delete(id:, params:)
 ```
 
 ### Notifications
@@ -106,4 +107,4 @@ They are [listed here](https://github.com/tbalthazar/onesignal-ruby/graphs/contr
 
 ## License
 
-Please see [LICENSE](/LICENSE) for licensing details. 
+Please see [LICENSE](/LICENSE) for licensing details.
